@@ -1,14 +1,15 @@
 package handlers
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/tsagita/go-vue-postgre/pkg/database"
-	"github.com/tsagita/go-vue-postgre/pkg/domain"
-	_ "github.com/lib/pq"
 	"database/sql"
+	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
+	"github.com/tsagita/go-vue-postgre/pkg/database"
+	"github.com/tsagita/go-vue-postgre/pkg/domain"
 	// "encoding/json"
 )
 
@@ -16,7 +17,7 @@ var db *sql.DB
 
 func init() {
 	var err error
-	db, err = database.Connection();
+	db, err = database.Connection()
 	if err != nil {
 		fmt.Printf("Error")
 	}
@@ -101,7 +102,7 @@ func getOrderItems(productName, startDate, endDate string, page int) ([]domain.O
 		if err := rows.Scan(&item.OrderID, &item.Product, &item.OrderName, &item.CreatedAt, &deliveryAmt, &item.TotalAmount, &item.CustomerName, &item.CompanyName); err != nil {
 			return nil, 0, err
 		}
-	
+
 		if deliveryAmt.Valid {
 			item.DeliveryAmt = deliveryAmt
 		} else {
@@ -113,7 +114,7 @@ func getOrderItems(productName, startDate, endDate string, page int) ([]domain.O
 		} else {
 			item.TotalAmount = sql.NullFloat64{Valid: false}
 		}
-	
+
 		result = append(result, item)
 	}
 

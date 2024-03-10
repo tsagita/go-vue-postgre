@@ -1,10 +1,11 @@
 package database
 
 import (
-	"fmt"
 	"database/sql"
+	"fmt"
 	"os"
 	"strconv"
+
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )

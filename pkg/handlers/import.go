@@ -1,14 +1,15 @@
 package handlers
 
 import (
-	"os"
-	"fmt"
-	"strings"
 	"encoding/csv"
+	"fmt"
+	"os"
 	"path/filepath"
+	"strings"
+
 	"github.com/gin-gonic/gin"
-	"github.com/tsagita/go-vue-postgre/pkg/database"
 	_ "github.com/lib/pq"
+	"github.com/tsagita/go-vue-postgre/pkg/database"
 )
 
 var files = map[string]string{
@@ -38,28 +39,28 @@ func Import(c *gin.Context) {
 		}
 
 		successRecord := make(map[string]interface{})
-        successRecord["table"] = tableName
-        successRecord["records"] = generateSuccessRecords(result)
-        successRecords = append(successRecords, successRecord)
+		successRecord["table"] = tableName
+		successRecord["records"] = generateSuccessRecords(result)
+		successRecords = append(successRecords, successRecord)
 
 	}
 	c.JSON(200, successRecords)
 }
 
 func generateSuccessRecords(data []map[string]string) string {
-    var successRecords []string
-    for _, row := range data {
-        successRecords = append(successRecords, generateRecordString(row))
-    }
-    return "Success Insert: " + strings.Join(successRecords, " - ")
+	var successRecords []string
+	for _, row := range data {
+		successRecords = append(successRecords, generateRecordString(row))
+	}
+	return "Success Insert: " + strings.Join(successRecords, " - ")
 }
 
 func generateRecordString(row map[string]string) string {
-    var values []string
-    for _, value := range row {
-        values = append(values, value)
-    }
-    return strings.Join(values, " - ")
+	var values []string
+	for _, value := range row {
+		values = append(values, value)
+	}
+	return strings.Join(values, " - ")
 }
 
 func readCSV(filePath string) ([]map[string]string, error) {
@@ -95,7 +96,7 @@ func readCSV(filePath string) ([]map[string]string, error) {
 
 func insert(tableName string, data []map[string]string) error {
 	var err error
-	db, err = database.Connection();
+	db, err = database.Connection()
 	if err != nil {
 		return err
 	}
@@ -133,10 +134,10 @@ func generateInsertQuery(row map[string]string) (string, string) {
 	for key, value := range row {
 		columns += key + ","
 		if value == "" {
-            values += "NULL,"
-        } else {
-            values += fmt.Sprintf("'%s',", value)
-        }
+			values += "NULL,"
+		} else {
+			values += fmt.Sprintf("'%s',", value)
+		}
 	}
 	return columns[:len(columns)-1], values[:len(values)-1]
 }

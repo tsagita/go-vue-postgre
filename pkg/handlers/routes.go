@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
-	"github.com/gin-contrib/cors"
 )
 
 // SetupRoutes connects the HTTP API endpoints to the handlers
